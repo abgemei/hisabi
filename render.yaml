@@ -22,7 +22,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false
 
-  - type: web
+  - type: private_service
     name: hisabi-db
     env: docker
     plan: free
