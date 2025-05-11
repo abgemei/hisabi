@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: hisabi-web
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: DB_HOST
+        value: hisabi-db
+      - key: DB_DATABASE
+        value: hisabi
+      - key: DB_USERNAME
+        value: hisabi
+      - key: DB_PASSWORD
+        value: secret
+      - key: OPENAI_API_KEY
+        sync: false
+
+  - type: private_service
+    name: hisabi-db
+    env: docker
+    dockerfilePath: ./Dockerfile.mysql
+    dockerContext: .
+    disk:
+      name: db-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
