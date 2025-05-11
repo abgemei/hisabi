@@ -1,10 +1,11 @@
 services:
   - type: web
-    name: hisabi-web
+    name: hisabi-app
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
+    autoDeploy: true
     envVars:
       - key: APP_ENV
         value: production
@@ -21,12 +22,16 @@ services:
       - key: OPENAI_API_KEY
         sync: false
 
-  - type: private_service
+  - type: web
     name: hisabi-db
     env: docker
+    plan: free
     dockerfilePath: ./Dockerfile.mysql
     dockerContext: .
-    disk:
-      name: db-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
+    autoDeploy: true
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: secret
+      - key: MYSQL_DATABASE
+        value: hisabi
+      - key: MYSQL_USER
