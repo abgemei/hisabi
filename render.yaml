@@ -5,6 +5,7 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
+    region: oregon  # ✅ Add this (must match the DB region)
     autoDeploy: true
     envVars:
       - key: APP_ENV
@@ -28,7 +29,9 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile.mysql
     dockerContext: .
+    region: oregon  # ✅ Add this to ensure they’re colocated
     autoDeploy: true
+    skipDeployChecks: true  # ✅ Add this to bypass port scan checks
     envVars:
       - key: MYSQL_ROOT_PASSWORD
         value: secret
@@ -36,6 +39,8 @@ services:
         value: hisabi
       - key: MYSQL_USER
         value: hisabi
+      - key: MYSQL_PASSWORD
+        value: secret  # ✅ You were missing this line
 
     disk:
       name: db-data
